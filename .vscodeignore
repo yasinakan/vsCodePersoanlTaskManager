@@ -1,0 +1,13 @@
+node_modules
+src
+.vscode
+.gitignore
+.vscodeignore
+README.md
+tsconfig.json
+package-lock.json
+typings/**
+out/test/**
+test/**
+**/*.map
+vsc-extension-quickstart.md
