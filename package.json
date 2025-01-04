@@ -26,35 +26,23 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "cowsay.say",
-				"title": "cowsay"
-			},
-			{
-				"command": "cowsay.backwards",
-				"title": "cowsay (↹)"
-			},
-			{
 				"command": "helloWorld.show",
 				"title": "Hello World"
+			},
+			{
+				"command": "printTheTaskJson.show",
+				"title": "Print the Task JSON"
 			}
 		],
-		"menus": {
-			"editor/title": [
-				{
-					"command": "cowsay.backwards",
-					"group": "navigation",
-					"when": "resourceScheme == cowsay"
+		"configuration": {
+			"title": "Personal Task Manager",
+			"properties": {
+				"myTask.json": {
+					"type": "string",
+					"default": "D:/Dev/vsCodePersoanlTaskManager/tasks112.json",
+					"description": "Path to the JSON file containing tasks"
 				}
-			],
-			"commandPalette": [
-				{
-					"command": "cowsay.backwards",
-					"when": "resourceScheme == cowsay"
-				},
-				{
-					"command": "helloWorld.show"
-				}
-			]
+			}
 		}
 	},
 	"scripts": {
@@ -62,9 +50,6 @@
 		"compile": "tsc -p ./",
 		"lint": "eslint",
 		"watch": "tsc -watch -p ./"
-	},
-	"dependencies": {
-		"cowsay": "^1.5.0"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.13.0",

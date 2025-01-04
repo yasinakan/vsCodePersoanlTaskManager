@@ -1,51 +1,49 @@
 import * as vscode from 'vscode';
-import * as cowsay from 'cowsay';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export function activate({ subscriptions }: vscode.ExtensionContext) {
+    // Get the task file path from settings
+    const config = vscode.workspace.getConfiguration('myTask');
 
-    // register a content provider for the cowsay-scheme
-    const myScheme = 'cowsay';
-    const myProvider = new class implements vscode.TextDocumentContentProvider {
+    const taskFilePath = config.get<string>('json') || '';
 
-        // emitter and its event
-        onDidChangeEmitter = new vscode.EventEmitter<vscode.Uri>();
-        onDidChange = this.onDidChangeEmitter.event;
+    vscode.window.showInformationMessage(`task file: ${taskFilePath}`);
 
-        provideTextDocumentContent(uri: vscode.Uri): string {
-            // simply invoke cowsay, use uri-path as text
-            return cowsay.say({ text: uri.path });
-        }
-    };
-    subscriptions.push(vscode.workspace.registerTextDocumentContentProvider(myScheme, myProvider));
 
-    // register a command that opens a cowsay-document
-    subscriptions.push(vscode.commands.registerCommand('cowsay.say', async () => {
-        const what = await vscode.window.showInputBox({ placeHolder: 'cowsay...' });
-        if (what) {
-            const uri = vscode.Uri.parse('cowsay:' + what);
-            const doc = await vscode.workspace.openTextDocument(uri); // calls back into the provider
-            await vscode.window.showTextDocument(doc, { preview: false });
-        }
-    }));
+    if (!taskFilePath) {
+        vscode.window.showErrorMessage('Task file path not configured. Please set myTask.json in settings.');
+    }
 
-    // register a command that updates the current cowsay
-    subscriptions.push(vscode.commands.registerCommand('cowsay.backwards', async () => {
-        if (!vscode.window.activeTextEditor) {
-            return; // no editor
-        }
-        const { document } = vscode.window.activeTextEditor;
-        if (document.uri.scheme !== myScheme) {
-            return; // not my scheme
-        }
-        // get path-components, reverse it, and create a new uri
-        const say = document.uri.path;
-        const newSay = say.split('').reverse().join('');
-        const newUri = document.uri.with({ path: newSay });
-        await vscode.window.showTextDocument(newUri, { preview: false });
-    }));
-
-    // register a command that shows "Hello World"
+    // Register the hello world command
     subscriptions.push(vscode.commands.registerCommand('helloWorld.show', () => {
         vscode.window.showInformationMessage('Hello World');
     }));
+
+    // Register the printTheTaskJson command
+    subscriptions.push(vscode.commands.registerCommand('printTheTaskJson.show', () => {
+        if (!taskFilePath) {
+            vscode.window.showErrorMessage('Task file path not configured. Please set myTask.json in settings.');
+            return;
+        }
+
+        const absolutePath = path.resolve(taskFilePath);
+        fs.readFile(absolutePath, 'utf8', (err, data) => {
+            if (err) {
+                vscode.window.showErrorMessage(`Error reading task file: ${err.message}`);
+                return;
+            }
+
+            vscode.window.showInformationMessage(`Task file content:\n${data}`);
+        });
+    }));
+
+    // Watch for settings changes
+    vscode.workspace.onDidChangeConfiguration(e => {
+        if (e.affectsConfiguration('myTask.json')) {
+            const newConfig = vscode.workspace.getConfiguration('myTask');
+            const newPath = newConfig.get<string>('json');
+            vscode.window.showInformationMessage(`Task file path updated to: ${newPath}`);
+        }
+    });
 }
