@@ -1,7 +1,7 @@
 {
 	"name": "personal-task-manager",
 	"displayName": "Personal Task Manager",
-	"description": "A personal task manager extension",
+	"description": "Manage personal tasks through custom commands.",
 	"version": "0.0.1",
 	"publisher": "your-publisher-name",
 	"private": true,
@@ -14,13 +14,13 @@
 		"url": "https://github.com/your-repo-url/issues"
 	},
 	"engines": {
-		"vscode": "^1.74.0"
+		"vscode": "^1.50.0"
 	},
 	"categories": [
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:helloWorld.show"
+		"*"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -30,34 +30,48 @@
 				"title": "Hello World"
 			},
 			{
-				"command": "printTheTaskJson.show",
-				"title": "Print the Task JSON"
+				"command": "extension.runTerminalCommand",
+				"title": "Run Terminal Command"
 			}
 		],
 		"configuration": {
+			"type": "object",
 			"title": "Personal Task Manager",
 			"properties": {
 				"myTask.json": {
 					"type": "string",
 					"default": "D:/Dev/vsCodePersoanlTaskManager/tasks112.json",
-					"description": "Path to the JSON file containing tasks"
+					"description": "Path to the JSON file containing tasks."
 				}
 			}
-		}
+		},
+		"taskDefinitions": [
+			{
+				"type": "myTask",
+				"required": ["task"],
+				"properties": {
+					"task": {
+						"type": "string",
+						"description": "The name of the task"
+					}
+				}
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"lint": "eslint",
-		"watch": "tsc -watch -p ./"
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install"
 	},
 	"devDependencies": {
+		"typescript": "^4.0.3",
+		"vscode": "^1.1.37",
+		"@types/node": "^14.14.6",
+		"@types/vscode": "^1.50.0",
 		"@eslint/js": "^9.13.0",
 		"@stylistic/eslint-plugin": "^2.9.0",
-		"@types/node": "^20",
-		"@types/vscode": "^1.73.0",
-		"eslint": "^9.13.0",
-		"typescript": "^5.7.2",
-		"typescript-eslint": "^8.16.0"
+		"eslint": "^9.13.0"
 	}
 }

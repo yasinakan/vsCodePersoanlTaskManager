@@ -1,3 +1,24 @@
-1
-2
-3
+[
+    {
+        "name": "ListDirectory",
+        "command": "ls",
+        "type": "shell",
+        "scope": "workspace",
+        "presentationOptions": {
+            "reveal": "always",
+            "panel": "shared"
+        },
+        "problemMatchers": []
+    },
+    {
+        "name": "List Directory2",
+        "command": "pwd",
+        "type": "shell",
+        "scope": "workspace",
+        "presentationOptions": {
+            "reveal": "always",
+            "panel": "shared"
+        },
+        "problemMatchers": []
+    }
+]
