@@ -1,7 +1,7 @@
 [
     {
-        "name": "Echo",
-        "command": "echo ${file}",
+        "name": "ListDirectory_113",
+        "command": "ls",
         "type": "shell",
         "scope": "workspace",
         "presentationOptions": {
@@ -11,7 +11,7 @@
         "problemMatchers": []
     },
     {
-        "name": "List Directory2_112",
+        "name": "List Directory2_113s",
         "command": "pwd",
         "type": "shell",
         "scope": "workspace",
