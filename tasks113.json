@@ -8,7 +8,11 @@
             "reveal": "always",
             "panel": "shared"
         },
-        "problemMatchers": []
+        "problemMatchers": [],
+        "group": {
+            "grand_parent": "113",
+            "parent": "file"
+        }
     },
     {
         "name": "List Directory2_113s",
@@ -19,6 +23,10 @@
             "reveal": "always",
             "panel": "shared"
         },
-        "problemMatchers": []
+        "problemMatchers": [],
+        "group": {
+            "grand_parent": "113",
+            "parent": "file2"
+        }
     }
 ]

@@ -5,6 +5,10 @@ import { ConfigurationService } from './ConfigurationService';
 export interface ITask {
     name: string;
     command: string;
+    group?: {
+        grand_parent?: string;
+        parent?: string;
+    };
 }
 
 export class TaskService {
@@ -34,12 +38,23 @@ export class TaskService {
             task: task.name
         };
         const taskExecution = new vscode.ShellExecution(task.command);
-        return new vscode.Task(
+        const vsCodeTask = new vscode.Task(
             taskDefinition,
             vscode.TaskScope.Workspace,
             task.name,
             'myTask2',
             taskExecution
         );
+
+        // Set task group if available
+        if (task.group) {
+            if (task.group.grand_parent === 'build') {
+                vsCodeTask.group = vscode.TaskGroup.Build;
+            } else if (task.group.grand_parent === 'test') {
+                vsCodeTask.group = vscode.TaskGroup.Test;
+            }
+        }
+
+        return vsCodeTask;
     }
 }
