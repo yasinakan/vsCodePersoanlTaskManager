@@ -5,29 +5,36 @@ import { TaskDataProvider } from './providers/TaskDataProvider';
 import { TaskService } from './services/TaskService';
 import { ConfigurationService } from './services/ConfigurationService';
 
-async function initializeDefaultTaskFile(context: vscode.ExtensionContext) {
+async function initializeDefaultTaskFiles(context: vscode.ExtensionContext) {
     const homeDir = process.env.HOME || process.env.USERPROFILE;
     if (!homeDir) return;
 
     const userTasksDir = path.join(homeDir, '.vscode-tasks');
-    const defaultTaskPath = path.join(userTasksDir, 'tasks112.json');
+    const taskFiles = ['tasks112.json', 'tasks113.json'];
+    const taskPaths: string[] = [];
 
     // Create user tasks directory if it doesn't exist
     if (!fs.existsSync(userTasksDir)) {
         fs.mkdirSync(userTasksDir, { recursive: true });
     }
 
-    // Copy default task file if it doesn't exist
-    if (!fs.existsSync(defaultTaskPath)) {
-        const defaultTaskSource = path.join(context.extensionPath, 'resources', 'defaultTasks', 'tasks112.json');
-        fs.copyFileSync(defaultTaskSource, defaultTaskPath);
+    // Copy task files if they don't exist
+    for (const taskFile of taskFiles) {
+        const userTaskPath = path.join(userTasksDir, taskFile);
+        taskPaths.push(userTaskPath);
+
+        if (!fs.existsSync(userTaskPath)) {
+            const sourceTaskPath = path.join(context.extensionPath, 'resources', 'defaultTasks', taskFile);
+            fs.copyFileSync(sourceTaskPath, userTaskPath);
+        }
     }
 
-    // Update configuration to include the default task file
+    // Update configuration to include both task files
     const config = vscode.workspace.getConfiguration('myTask');
     const currentPaths = config.get<string[]>('json') || [];
-    if (!currentPaths.includes(defaultTaskPath)) {
-        await config.update('json', [...currentPaths, defaultTaskPath], vscode.ConfigurationTarget.Global);
+    const newPaths = [...new Set([...currentPaths, ...taskPaths])];
+    if (newPaths.length !== currentPaths.length) {
+        await config.update('json', newPaths, vscode.ConfigurationTarget.Global);
     }
 }
 
@@ -50,9 +57,9 @@ class MyTaskProvider implements vscode.TaskProvider {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-    // Initialize default task file
-    initializeDefaultTaskFile(context).catch(err => 
-        vscode.window.showErrorMessage(`Failed to initialize default task file: ${err}`)
+    // Initialize default task files
+    initializeDefaultTaskFiles(context).catch(err => 
+        vscode.window.showErrorMessage(`Failed to initialize default task files: ${err}`)
     );
 
     const configService = new ConfigurationService();
