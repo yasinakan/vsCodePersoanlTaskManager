@@ -40,7 +40,7 @@
                     "items": {
                         "type": "string"
                     },
-                    "default": ["D:/Dev/vsCodePersoanlTaskManager/tasks112.json", "D:/Dev/vsCodePersoanlTaskManager/tasks113.json"],
+                    "default": [],
                     "description": "Paths to task definition files."
                 }
             }
