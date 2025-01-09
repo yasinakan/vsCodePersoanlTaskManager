@@ -39,4 +39,16 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.createTreeView('taskManagerView', {
         treeDataProvider: taskDataProvider
     });
+
+    // Register run task command
+    context.subscriptions.push(
+        vscode.commands.registerCommand('taskManager.runTask', async (taskName: string) => {
+            const tasks = await taskService.getTasks();
+            const task = tasks.find(t => t.name === taskName);
+            if (task) {
+                const vsCodeTask = taskService.createVSCodeTask(task);
+                vscode.tasks.executeTask(vsCodeTask);
+            }
+        })
+    );
 }

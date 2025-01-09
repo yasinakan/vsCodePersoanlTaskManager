@@ -29,5 +29,13 @@ class TaskItem extends vscode.TreeItem {
         public readonly collapsibleState: vscode.TreeItemCollapsibleState
     ) {
         super(label, collapsibleState);
+        this.tooltip = `Click to run ${this.label}`;
+        this.command = {
+            command: 'taskManager.runTask',
+            title: 'Run Task',
+            arguments: [this.label]
+        };
+        this.iconPath = new vscode.ThemeIcon('play');
+        this.contextValue = 'task';
     }
 }
