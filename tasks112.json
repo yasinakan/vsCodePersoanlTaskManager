@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Echo",
+        "command": "echo ${file}",
+        "type": "shell",
+        "scope": "workspace",
+        "presentationOptions": {
+            "reveal": "always",
+            "panel": "shared"
+        },
+        "problemMatchers": [],
+        "group": {
+            "grand_parent": "112",
+            "parent": "file"
+        }
+    },
+    {
+        "name": "List Directory2_112",
+        "command": "pwd",
+        "type": "shell",
+        "scope": "workspace",
+        "presentationOptions": {
+            "reveal": "always",
+            "panel": "shared"
+        },
+        "problemMatchers": [],
+        "group": {
+            "grand_parent": "112",
+            "parent": "file"
+        }
+    }
+]

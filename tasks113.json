@@ -1,0 +1,32 @@
+[
+    {
+        "name": "ListDirectory_113",
+        "command": "ls",
+        "type": "shell",
+        "scope": "workspace",
+        "presentationOptions": {
+            "reveal": "always",
+            "panel": "shared"
+        },
+        "problemMatchers": [],
+        "group": {
+            "grand_parent": "113",
+            "parent": "file"
+        }
+    },
+    {
+        "name": "List Directory2_113s",
+        "command": "pwd",
+        "type": "shell",
+        "scope": "workspace",
+        "presentationOptions": {
+            "reveal": "always",
+            "panel": "shared"
+        },
+        "problemMatchers": [],
+        "group": {
+            "grand_parent": "113",
+            "parent": "file2"
+        }
+    }
+]
