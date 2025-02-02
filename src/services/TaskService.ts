@@ -34,7 +34,7 @@ export class TaskService {
 
     createVSCodeTask(task: ITask): vscode.Task {
         const taskDefinition: vscode.TaskDefinition = {
-            type: 'myTask2',
+            type: 'Tasks',
             task: task.name
         };
         const taskExecution = new vscode.ShellExecution(task.command);
@@ -42,7 +42,7 @@ export class TaskService {
             taskDefinition,
             vscode.TaskScope.Workspace,
             task.name,
-            'myTask2',
+            'Tasks',
             taskExecution
         );
 

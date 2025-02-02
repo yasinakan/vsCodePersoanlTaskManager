@@ -2,8 +2,8 @@
     "name": "personal-task-manager",
     "displayName": "Personal Task Manager",
     "description": "A personal task manager extension for VS Code",
-    "version": "0.0.1",
-    "publisher": "your-publisher-name",
+    "version": "0.0.2",
+    "publisher": "YasinAkan",
     "repository": {
         "type": "git",
         "url": "https://github.com/your-repo-url"
@@ -47,7 +47,7 @@
         },
         "taskDefinitions": [
             {
-                "type": "myTask2",
+                "type": "Tasks",
                 "required": [
                     "task"
                 ],

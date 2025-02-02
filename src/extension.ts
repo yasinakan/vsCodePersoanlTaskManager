@@ -70,8 +70,8 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage('Hello World');
     }));
 
-    // Register the task provider with type 'myTask2' to match package.json
-    const taskProvider = vscode.tasks.registerTaskProvider('myTask2', new MyTaskProvider(taskService));
+    // Register the task provider with type 'Tasks' to match package.json
+    const taskProvider = vscode.tasks.registerTaskProvider('Tasks', new MyTaskProvider(taskService));
     context.subscriptions.push(taskProvider);
 
     const taskDataProvider = new TaskDataProvider(taskService);
