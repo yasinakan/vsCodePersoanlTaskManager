@@ -10,7 +10,7 @@ async function initializeDefaultTaskFiles(context: vscode.ExtensionContext) {
     if (!homeDir) return;
 
     const userTasksDir = path.join(homeDir, '.vscode-tasks');
-    const taskFiles = ['tasks112.json', 'tasks113.json'];
+    const taskFiles = ['DefaultTasks1.json', 'DefaultTasks2.json'];
     const taskPaths: string[] = [];
 
     // Create user tasks directory if it doesn't exist
@@ -30,15 +30,21 @@ async function initializeDefaultTaskFiles(context: vscode.ExtensionContext) {
     }
 
     // Update configuration to include both task files
-    const config = vscode.workspace.getConfiguration('myTask');
+    const config = vscode.workspace.getConfiguration('Tasks');
     const currentPaths = config.get<string[]>('json') || [];
+
+ // Only update configuration if there is no existing Tasks configuration
+if (!currentPaths || currentPaths.length === 0) {   
     const newPaths = [...new Set([...currentPaths, ...taskPaths])];
     if (newPaths.length !== currentPaths.length) {
         await config.update('json', newPaths, vscode.ConfigurationTarget.Global);
     }
+
+
+}
 }
 
-class MyTaskProvider implements vscode.TaskProvider {
+class TasksProvider implements vscode.TaskProvider {
     constructor(private taskService: TaskService) {}
 
     async provideTasks(): Promise<vscode.Task[]> {
@@ -66,12 +72,12 @@ export function activate(context: vscode.ExtensionContext) {
     const taskService = new TaskService(configService);
 
     // Register the hello world command
-    context.subscriptions.push(vscode.commands.registerCommand('helloWorld.show', () => {
-        vscode.window.showInformationMessage('Hello World');
-    }));
+//    context.subscriptions.push(vscode.commands.registerCommand('helloWorld.show', () => {
+//        vscode.window.showInformationMessage('Hello World');
+//    }));
 
     // Register the task provider with type 'Tasks' to match package.json
-    const taskProvider = vscode.tasks.registerTaskProvider('Tasks', new MyTaskProvider(taskService));
+    const taskProvider = vscode.tasks.registerTaskProvider('Tasks', new TasksProvider(taskService));
     context.subscriptions.push(taskProvider);
 
     const taskDataProvider = new TaskDataProvider(taskService);

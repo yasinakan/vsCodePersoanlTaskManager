@@ -1,7 +1,7 @@
 [
     {
-        "name": "ListDirectory_113",
-        "command": "ls",
+        "name": "Echo",
+        "command": "echo ${file}",
         "type": "shell",
         "scope": "workspace",
         "presentationOptions": {
@@ -10,12 +10,12 @@
         },
         "problemMatchers": [],
         "group": {
-            "grand_parent": "113",
+            "grand_parent": "DefaultTasks1",
             "parent": "file"
         }
     },
     {
-        "name": "List Directory2_113s",
+        "name": "List Directory2_DefaultTasks1",
         "command": "pwd",
         "type": "shell",
         "scope": "workspace",
@@ -25,8 +25,8 @@
         },
         "problemMatchers": [],
         "group": {
-            "grand_parent": "113",
-            "parent": "file2"
+            "grand_parent": "DefaultTasks1",
+            "parent": "file"
         }
     }
 ]
