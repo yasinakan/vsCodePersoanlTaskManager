@@ -2,7 +2,7 @@
     "name": "personal-task-manager",
     "displayName": "Personal Task Manager",
     "description": "A personal task manager extension for VS Code",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "publisher": "YasinAkan",
     "repository": {
         "type": "git",
@@ -29,6 +29,16 @@
             {
                 "command": "extension.runTerminalCommand",
                 "title": "Run Terminal Command"
+            },
+            {
+                "command": "taskManager.search",
+                "title": "Search Tasks",
+                "icon": "$(search)"
+            },
+            {
+                "command": "taskManager.refresh",
+                "title": "Refresh Tasks",
+                "icon": "$(refresh)"
             }
         ],
         "configuration": {
@@ -64,6 +74,20 @@
                 {
                     "id": "taskManagerView",
                     "name": "Task Manager"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "taskManager.search",
+                    "when": "view == taskManagerView",
+                    "group": "navigation"
+                },
+                {
+                    "command": "taskManager.refresh",
+                    "when": "view == taskManagerView",
+                    "group": "navigation"
                 }
             ]
         }

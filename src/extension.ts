@@ -81,9 +81,42 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(taskProvider);
 
     const taskDataProvider = new TaskDataProvider(taskService);
-    vscode.window.createTreeView('taskManagerView', {
-        treeDataProvider: taskDataProvider
+    const treeView = vscode.window.createTreeView('taskManagerView', {
+        treeDataProvider: taskDataProvider,
+        showCollapseAll: true
     });
+
+    // Add search box
+    let searchBox: vscode.TextEditor | undefined;
+    const searchBoxDecoration = vscode.window.createTextEditorDecorationType({
+        backgroundColor: new vscode.ThemeColor('input.background'),
+        color: new vscode.ThemeColor('input.foreground'),
+    });
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand('taskManager.search', async () => {
+            const query = await vscode.window.showInputBox({
+                placeHolder: 'Search tasks...',
+                prompt: 'Enter text to filter tasks'
+            });
+            
+            if (query !== undefined) {
+                taskDataProvider.setSearchQuery(query);
+            }
+        })
+    );
+
+    // Register refresh command
+    context.subscriptions.push(
+        vscode.commands.registerCommand('taskManager.refresh', async () => {
+            try {
+                await taskDataProvider.refresh();
+                vscode.window.showInformationMessage('Tasks refreshed successfully');
+            } catch (error) {
+                vscode.window.showErrorMessage(`Failed to refresh tasks: ${error}`);
+            }
+        })
+    );
 
     // Register run task command
     context.subscriptions.push(

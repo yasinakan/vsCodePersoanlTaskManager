@@ -12,9 +12,15 @@ export interface ITask {
 }
 
 export class TaskService {
+    private taskCache: ITask[] | null = null;
+
     constructor(private configService: ConfigurationService) {}
 
-    async getTasks(): Promise<ITask[]> {
+    async getTasks(forceRefresh: boolean = false): Promise<ITask[]> {
+        if (this.taskCache && !forceRefresh) {
+            return this.taskCache;
+        }
+
         const taskFilePaths = this.configService.getTaskFilePaths();
         const tasks: ITask[] = [];
 
@@ -29,6 +35,7 @@ export class TaskService {
             }
         }
 
+        this.taskCache = tasks;
         return tasks;
     }
 
@@ -56,5 +63,9 @@ export class TaskService {
         }
 
         return vsCodeTask;
+    }
+
+    clearCache() {
+        this.taskCache = null;
     }
 }
