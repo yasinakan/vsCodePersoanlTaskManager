@@ -1,12 +1,12 @@
 {
-    "name": "personal-task-manager",
-    "displayName": "Personal Task Manager",
-    "description": "A personal task manager extension for VS Code",
+    "name": "vscode-toolMaster",
+    "displayName": "ToolMaster",
+    "description": "A powerful task management and visualization tool for VS Code",
     "version": "0.0.3",
     "publisher": "YasinAkan",
     "repository": {
         "type": "git",
-        "url": "https://github.com/your-repo-url"
+        "url": "https://github.com/yasinakan/vsCodePersoanlTaskManager"
     },
     "engines": {
         "vscode": "^1.50.0"
@@ -39,11 +39,15 @@
                 "command": "taskManager.refresh",
                 "title": "Refresh Tasks",
                 "icon": "$(refresh)"
+            },
+            {
+                "command": "taskManager.viewTask",
+                "title": "View Task"
             }
         ],
         "configuration": {
             "type": "object",
-            "title": "Personal Task Manager",
+            "title": "Tool Master",
             "properties": {
                 "Tasks.json": {
                     "type": "array",
@@ -73,9 +77,11 @@
             "explorer": [
                 {
                     "id": "taskManagerView",
-                    "name": "Task Manager"
+                    "name": "Tool Master",
+                    "icon": "$(tasklist)"
                 }
             ]
+              
         },
         "menus": {
             "view/title": [
@@ -88,6 +94,13 @@
                     "command": "taskManager.refresh",
                     "when": "view == taskManagerView",
                     "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "taskManager.runTaskFromMenu",
+                    "when": "view == taskManagerView && viewItem == task",
+                    "group": "inline"
                 }
             ]
         }
